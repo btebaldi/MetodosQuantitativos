@@ -8,56 +8,45 @@ source(file = "dev/GetDataFromGoogleFinance.R")
 dataInicio = "2016-01-01"
 dataFim = "2016-12-31"
 
-#Datas = as.Date(dataInicio):as.Date(dataFim)
-
-
-
-#datetimes = strptime(c(dataInicio, dataFim), format = "%Y-%m-%d")
-#range = difftime(dataFim, dataInicio, units = "days")
-
-
+# Inicializo as datas
 Datas = seq(as.Date(dataInicio), as.Date(dataFim), by = "days")
 
-DF = data.frame(VALE5 = numeric(length(Datas)))
-rownames(DF) =   format(Datas, format = "%Y-%m-%d")
-
-DF[,1 ] = NA
-
-
+# Inicializo os tickers
 ticker = c("BVMF:CIEL3", "BVMF:VALE5", "BVMF:BBDC4", "BVMF:ITSA4")
 
-joe =  array(
-  data = NA,
-  dim = c(as.numeric(range), length(ticker)),
-  dimnames = NULL
-)
 
+# Inicializo o Dataframe 
+DF = matrix(NA, nrow = length(Datas), ncol = length(ticker))
+rownames(DF) = format(Datas, format = "%Y-%m-%d")
+colnames(DF) = ticker 
+
+
+# Busco dados
 for (item in ticker)
 {
-  X = GetDataFromGoogleFinance(item, "2016-01-01", "2016-12-31")
-  
-  
-  for (i in 1:dim(X)[1])
+  X = GetDataFromGoogleFinance(item, dataInicio, dataFim)
+
+  for (nContador in 1:dim(X)[1])
   {
-    print(sprintf("%s - %f", X[i, 1], X[i, "Close"]))
-    
-    myDate = as.Date(X[i, 1], format="%e-%b-%y")
-    
-    print(sprintf("%s - %f", myDate, X[i, "Close"]))
-    
-    DF[as.character( myDate), 1] = X[i, "Close"]
+    myDate = as.Date(X[nContador, 1], format="%e-%b-%y")
+    DF[as.character(myDate), item] = X[nContador, "Close"]
   }
   
 }
 
-table(factor(sample(1:6, size = 10, replace = TRUE), levels = 1:6))
+# Determino uma matriz de retornos
+#retorno = na.omit(DF)
+#ret3 = apply(retorno, 2, scale, scale=FALSE, center=TRUE) 
+#colMeans(ret3 )
+#(t(ret3) %*% ret3)/(dim(ret3)[1]-1)
 
-joe[, 1] = X$Close
-joe
 
+# Calculo matriz de variancia e covariancia
+var(DF, na.rm = T)
 
+DF_limpo = na.omit(DF)
+retorno = diff(DF_limpo)/DF_limpo[-dim(DF_limpo)[1],]
 
+var(retorno)
+cor(retorno)
 
-MyDataframe <-
-  data.frame(Name = character(10),
-             Tickets  = numeric(10))
