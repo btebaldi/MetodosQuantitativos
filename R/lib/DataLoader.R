@@ -16,10 +16,10 @@ DataLoaderTxt = function(filename)
   Dados[["Date"]] = as.Date(Dados[["Date"]], format = "%d/%m/%Y")
   
   # ordenar pela coluna "Date"
-  Dados = Dados[order(Dados[["Date"]], decreasing = F)]
+  Dados = Dados[order(Dados[["Date"]], decreasing = F),]
   
   ## 
-  colnames(Dados)= gsub("(\^.+)\.")
+  colnames(Dados)= gsub("(\\w+)\\.(.+)", "\\1", colnames(Dados), perl=T )
   
   #  order()
   return(Dados)
