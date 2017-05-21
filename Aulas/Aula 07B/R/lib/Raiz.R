@@ -3,52 +3,21 @@ df = function (f,
                h = 1e-6,
                dx = "x",
                providedFunctionParams) {
-  # busco os parametros da funcao
-  functionParams = as.list(formals(f))
-  
   ## Iteracao da funcao f(x+h,...)
   
-  # Construo a lista de parametros a serem passadas para a funcao
-  for (item in names(functionParams))
-  {
-    if (item == dx)
-    {
-      #  se o parametro eh o ponto de derivacao defino o valor para ele
-      functionParams[[item]] = x + abs(h)
-    }
-    else
-    {
-      #  se o parametro nao eh o ponto de derivacao passo o valor da lista
-      functionParams[[item]] = providedFunctionParams[[item]]
-    }
-  }
+  # Estabeleço o ponto x_uppper
+  providedFunctionParams[[dx]] = x + abs(h)
   
   # executo a chamada da funcao
-  fplus = do.call(f, functionParams)
-  
+  fplus = do.call(f, providedFunctionParams)
   
   ## Iteracao da funcao f(x-h,...)
   
-  # busco os parametros da funcao
-  functionParams = formals(f)
-  
-  # Construo a lista de parametros a serem passadas para a funcao
-  for (item in names(functionParams))
-  {
-    if (item == dx)
-    {
-      #  se o parametro eh o ponto de derivacao defino o valor para ele
-      functionParams[[item]] = x - abs(h)
-    }
-    else
-    {
-      #  se o parametro nao eh o ponto de derivacao passo o valor da lista
-      functionParams[[item]] = providedFunctionParams[[item]]
-    }
-  }
+  # Estabeleço o ponto x_lower
+  providedFunctionParams[[dx]] = x - abs(h)
   
   # executo a chamada da funcao
-  fminus =  do.call(f, as.list(functionParams))
+  fminus =  do.call(f, providedFunctionParams)
   
   # Caculo a derivada pelo TVM
   return((fplus - fminus) / (2 * h))
@@ -62,26 +31,10 @@ root_f = function(f,
                   dx = "x",
                   providedFunctionParams)
 {
-  # busco os parametros da funcao
-  functionParams = formals(f)
+  providedFunctionParams[[dx]] = x0
   
-  # Construo a lista de parametros a serem passadas para a funcao
-  for (item in names(functionParams))
-  {
-    if (item == dx)
-    {
-      #  se o parametro eh o ponto de derivacao defino o valor para ele
-      functionParams[[item]] = x0
-    }
-    else
-    {
-      #  se o parametro nao eh o ponto de derivacao passo o valor da lista
-      functionParams[[item]] = providedFunctionParams[[item]]
-    }
-  }
-  
-  # executo a chamada da funcao
-  y =  do.call(f, as.list(functionParams))
+  # Determino y=f(x, y, ...) / executo a chamada da funcao
+  y =  do.call(f, providedFunctionParams)
   
   # inicializo o contador
   nContador = 0
@@ -93,9 +46,9 @@ root_f = function(f,
       x =  x0,
       h = eps,
       dx = dx,
-      functionParams
+      providedFunctionParams
     )
-
+    
     if (abs(Ndf) < eps)
     {
       # Aviso o usuario que foi encontrado um possivel ponto critico
@@ -109,13 +62,13 @@ root_f = function(f,
       # Calculo o novo x
       x_i = x0 - (y / Ndf)
     }
-
+    
     # atualizo o x da interacao
     x0 = x_i
-    functionParams[[dx]] = x_i
+    providedFunctionParams[[dx]] = x_i
     
-    # executo a chamada da funcao
-    y =  do.call(f, as.list(functionParams))
+    # executo a chamada da funcao determinando y=f(x_i, y, ...)
+    y =  do.call(f, providedFunctionParams)
     
     # incremento a interacao do contador
     nContador = nContador + 1
