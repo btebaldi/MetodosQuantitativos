@@ -1,3 +1,23 @@
+
+
+#' Calcula a derivada numerica de uma funcao no ponto
+#'
+#' @param f uma funcao
+#' @param x ponto da derivada
+#' @param h nivel de precisao
+#' @param dx variavel que deve ser derivada
+#' @param providedFunctionParams  outros parametros da funcao
+#'
+#' @return derivada numerica em um ponto
+#' @export
+#'
+#' @examples
+#'
+#' f1=function(x){return(x^3)}
+#'
+#' df(f1, 8, providedFunctionParams = list())
+#' [1] 192
+#'
 df = function (f,
                x,
                h = 1e-6,
@@ -24,6 +44,25 @@ df = function (f,
 }
 
 
+#' Retorna a raiz de uma funcao atraves do metodo de Newton-Raphson
+#'
+#' @param f Funcao
+#' @param x0 ponto inicial da regressao
+#' @param eps nivel de precisao
+#' @param nmax numero maximo de interacoes
+#' @param dx paraetro da funcao que deve ser avaliado
+#' @param providedFunctionParams outros parametros da funcao
+#'
+#' @return ponto da funcao
+#' @export
+#'
+#' @examples
+#' 
+#' f1=function(x){return(x^2-2)}
+#'
+#' root_f(f1, 4, providedFunctionParams = list())
+#' [1] 1.414214
+#'
 root_f = function(f,
                   x0,
                   eps = 1e-6,
@@ -72,6 +111,12 @@ root_f = function(f,
     
     # incremento a interacao do contador
     nContador = nContador + 1
+  }
+  
+  # avisa o usiario que o numero maximo de interacoes foi atingido
+  if (nContador > nmax)
+  {
+    warning("The process reached the maximum number of interactions")
   }
   
   return(x0)
