@@ -55,7 +55,7 @@ TIR = function(CF, r)
 {
   params = list(CF = CF, r = r)
   
-  root_f(
+  tirValue=root_f(
     f = VPL,
     x0 = r,
     dx = "r",
@@ -63,6 +63,8 @@ TIR = function(CF, r)
     nmax = 1000,
     providedFunctionParams = params
   )
+  
+  return(tirValue)
 }
 
 
