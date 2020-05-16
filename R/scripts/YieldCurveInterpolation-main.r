@@ -64,7 +64,7 @@ for (i in 1:length(dates)) {
   idx = sum(yiedlCurve[,"WorkDays"]<wdays[i]);
   
   cat(sprintf("Vertice anterior:\t%s %.4f%%\n",as.Date(yiedlCurve[[idx,"Maturity"]]),yiedlCurve[[idx,"Yield"]]*100));
-  cat(sprintf("Interpola??o:\t\t%s %.4f%%\n",dates[i],yield$y_star*100));
+  cat(sprintf("Interpolação:\t\t%s %.4f%%\n",dates[i],yield$y_star*100));
   cat(sprintf("Vertice posterior:\t%s %.4f%%\n\n",as.Date(yiedlCurve[[idx+1,"Maturity"]]),yiedlCurve[[idx+1,"Yield"]]*100));
   
   # myPlot = myPlot + geom_point(data = yield, aes(x_star, y_star), colour = "red")
