@@ -1,35 +1,19 @@
-## Descri??o:
-## - Script para testar a fun??o de c?lculo de dias uteis
+## Descricao:
+## - Script para testar a funcao de calculo de dias uteis
 ## - script para testar a interpolacao da curva de juros
 rm(list = ls())
 
-## --- Bibliotecas do R
-# library(XLConnect); ## Instalar pacote se necessario [Tools] [Install packages...]
+## --- Bibliotecas do R ----
 library(bizdays);
 library(ggplot2)
 
-## --- Bibliotecas do Usu?rio
+# --- Bibliotecas do Usuario ----
 source("./lib/MetQuantLib_v2.r");
-
-## --- Programa Principal
-
-
-## -- Carrega as informa??es da curva ----
 source("./scripts/BBG-MarketData_DataLoader.r")
- 
- 
- 
-## Carregar o arquivo workbook excel
-# wb = loadWorkbook("../database/BBG-MarketData.v0.1.xlsx");
 
-## Ler o conte?do da planilha
+# -- Carrega as informa??es da curva ----
 
-## Data de referencia. celula B1
-# refDate = readWorksheet(wb,sheet="YieldCurve",
-#                         startRow = 1, startCol = 2, 
-#                         endRow = 1, endCol = 2, 
-#                         header = FALSE, 
-#                         useCachedValues = TRUE);
+ 
 
 ## Por padrao traz um data.frame 1x1 com a data. Vamos transformar no tipo 'Date'
 # refDate = as.Date(refDate[1,1]);
