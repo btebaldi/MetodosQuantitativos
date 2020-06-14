@@ -23,8 +23,11 @@ truncar = function(x, n) {
 #' @param dataLiquidacao Data de liquidação do titulo
 #' @param titulo c("NTNF")
 #' @param TIR TIR para calculo do PU.
-TPFBrPU = function(titulo, dataVencto, dataLiquidacao, TIR) {
+TPFBrPU = function(titulo = c("NTNF", "LTN"), dataVencto, dataLiquidacao, TIR) {
   require(bizdays)
+  
+  titulo <- match.arg(titulo)
+  
   
   # Truncagem da TIR
   TIR = truncar(TIR, 6)

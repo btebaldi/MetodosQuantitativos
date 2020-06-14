@@ -1,4 +1,4 @@
-## Script com exemplo para da interpola??o Contrained Cubic Spline
+## Script com exemplo para da interpolacao Contrained Cubic Spline
 ## Para verificar os valores das derivadas e coeficientes ver a planilha: CCSpline-exemplo.xlsx
 
 # Clear all
@@ -8,7 +8,7 @@ rm(list = ls())
 library(ggplot2)
 
 ## -- Carrega a biblioteca de funcoes
-source("./lib/MetQuantLib_v2.r");
+source("./lib/CubicSpline.r");
 
 ## Valores de 'x'
 x = c(0,10,30,50,70,90,100);

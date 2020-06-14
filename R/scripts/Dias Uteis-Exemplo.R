@@ -36,3 +36,4 @@ print(diasPgto.ajusted)
 # Dias uteis até as datas de pagamento
 wdays = bizdays::bizdays(from = dtRef, to=diasPgto.ajusted, calendar)
 print(wdays)
+
